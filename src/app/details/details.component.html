@@ -1,0 +1,5 @@
+<article>
+    <h1>Details for #{{bookId}}</h1>
+    <p *ngIf="book">Book Title: {{book.title}}</p>
+    <p *ngIf="!book">Sorry, this book is not available. Where you looking for something else?</p>
+</article>
