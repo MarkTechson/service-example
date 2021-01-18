@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '../book.model';
 import { BookService } from '../book.service';
@@ -23,5 +24,13 @@ export class DetailsComponent implements OnInit {
     // Using the bookId from above, we can ask the service
     // to find the book by Id that we want
     this.book = this.bookService.getBookById(this.bookId);
+  }
+
+  onSubmit(form: NgForm) {
+    // At this point, you have access to the bookID (passed in from the route)
+    // the book, we got it from the service
+    console.log(form.value.title, form.value.chapterNumber);
+    this.bookService.addChapterToBook(form.value.title, form.value.chapterNumber, this.bookId);
+    form.resetForm();
   }
 }

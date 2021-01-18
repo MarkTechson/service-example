@@ -1,5 +1,19 @@
 <article>
     <h1>Details for #{{bookId}}</h1>
-    <p *ngIf="book">Book Title: {{book.title}}</p>
+    <section *ngIf="book">
+        <p>Book Title: {{book.title}}</p>
+        <p>Chapters:</p>
+        <ul>
+            <li *ngFor="let chapter of book.chapters">
+                {{chapter.title}}
+            </li>
+        </ul>
+        <form #chapterForm="ngForm" (ngSubmit)="onSubmit(chapterForm)">
+            <input type="text" name="title" ngModel>
+            <input type="number" name="chapterNumber" ngModel>
+            <button type="submit">Add Chapter</button>
+        </form>
+    </section>
     <p *ngIf="!book">Sorry, this book is not available. Where you looking for something else?</p>
+    <a [routerLink]="['/']">Home</a>
 </article>

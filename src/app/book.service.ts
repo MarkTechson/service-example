@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Book } from './book.model';
+import { Chapter } from './chapter';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,11 @@ export class BookService {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push#return_value
     const newLength = this.books.push(book);
     return newLength - 1; // minus 1 because if the length is 1, then the index is 0
+  }
+
+  addChapterToBook(title: string, description: string, bookId: number) {
+    const book: Book = this.getBookById(bookId);
+    const chapter = new Chapter(title, description);
+    book.chapters.push(chapter);
   }
 }

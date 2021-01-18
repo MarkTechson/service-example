@@ -5,5 +5,9 @@
         <input type="text" name="title" ngModel>
         <button type="submit">Save Book</button>
     </form>
+    <ul *ngFor="let book of books">
+        <li>{{book.title}} | {{book.chapters.length}}</li>
+
+    </ul>
     <p>Here is my book title: {{bookForm.value.title}}</p>
 </article>
