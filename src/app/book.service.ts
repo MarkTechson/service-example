@@ -11,7 +11,18 @@ export class BookService {
   // of our application that use the service.
   private books = [];
 
-  constructor() { }
+  constructor() {
+    const data = JSON.parse(localStorage.getItem('books'));
+    if (data !== null) {
+      this.books = data;
+    } else {
+      // If the data is null, then that means we don't have anything in local
+      // storage. So we'll add an empty array. localStorage.setItem takes two inputs
+      // a name and the data. The data must be in a string format. I'm just putting an
+      // empty array for now.
+      localStorage.setItem('books', '[]');
+    }
+  }
 
   getBookById(id: number) {
     return this.books[id];
@@ -28,6 +39,9 @@ export class BookService {
     // the new value.
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push#return_value
     const newLength = this.books.push(book);
+
+    // save the data to localstorage
+    this.persistBookData();
     return newLength - 1; // minus 1 because if the length is 1, then the index is 0
   }
 
@@ -35,5 +49,18 @@ export class BookService {
     const book: Book = this.getBookById(bookId);
     const chapter = new Chapter(title, description);
     book.chapters.push(chapter);
+
+    // since we've updated the chapter, we want to save the book data
+    this.persistBookData();
+  }
+
+  private persistBookData(): void {
+    // Let's save the data here to localstorage. Remember that the data
+    // must be in string format when saving it to localstorage. To make that
+    // work, I'm saving it using JSON.stringify. I'm just resaving the entire
+    // books array every time. This isn't the most elegant solution but for this
+    // example, this should be fine. The better way is to eventually integrate
+    // a database.
+    localStorage.setItem('books', JSON.stringify(this.books));
   }
 }
